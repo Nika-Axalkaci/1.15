@@ -1,0 +1,33 @@
+.input-p {
+  width: 100%;
+  padding: 1.5em;
+  margin: 1em 0;
+  border: 1px solid black;
+}
+.remove-btn {
+  background-color: white;
+  border: 1px solid black;
+  padding: 0.5em;
+  margin-top: 1em;
+}
+form {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 1em;
+}
+.add-btn {
+  background-color: white;
+  border: 1px solid black;
+  padding: 0.5em;
+  width: 42%;
+}
+p {
+  font-size: 1.5em;
+}
+input {
+  width: 42%;
+  height: 2em;
+  border: 1px solid black;
+  padding: 1em;
+}
