@@ -3,17 +3,29 @@ import '../components/ToDoList.css'
 import ToDoItem from "./ToDoItem"
 
 class ToDoList extends Component{
-  state = {
-    inputValue: "",
-    todo: [
-
-    ]
+  constructor(props){
+    super(props)
+    this.state = {
+      inputValue: "",
+      show: true,
+      error: null,
+      todo: [
+  
+      ]
+    }
+  }
+  
+  static getDerivedStateFromError(error) {
+    return {
+      error: error.message,
+    };
   }
   onChange=(e)=>{
    const value = e.target.value 
    this.setState({
     inputValue: value,
    })
+
   }
 
   addUser = (e) =>{
@@ -26,16 +38,24 @@ class ToDoList extends Component{
       todo:[...this.state.todo, todos],
       inputValue: ""
     })
+
   }
   removeTodo = (id) => {
     const todo = this.state.todo.filter((t) => t.id !== id)
     this.setState({
-
       todo,
-    }
+          }
     )
   }
+  toggle = ()=>{
+    this.setState((prevState)=>{
+      return{
+        show:!prevState.show,
+      }
+    })
+  }
   render(){
+    console.log('render log');
   return ( <div className="App">
     <form onSubmit={this.addUser}>
           <input
@@ -45,6 +65,9 @@ class ToDoList extends Component{
           />
           <button className="add-btn" type="submit">Add</button>
         </form>
+        <button onClick={this.toggle}> 
+          toggle
+        </button>
         {this.state.todo.map((t) =>(
           <ToDoItem 
           key={t.id}
