@@ -1,87 +1,45 @@
-import { Component } from "react"
+import { useCallback, useState } from 'react'
 import '../components/ToDoList.css'
 import ToDoItem from "./ToDoItem"
 
-class ToDoList extends Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      inputValue: "",
-      show: true,
-      error: null,
-      todo: [
+const ToDoList =() => {
+ const[inputValue , setInputValue] = useState('')
+ const[toDos , setToDos] = useState([{id:1 ,todo: "workout"}])
   
-      ]
-    }
-  }
-  
-  static getDerivedStateFromError(error) {
-    return {
-      error: error.message,
-    };
-  }
-  onChange=(e)=>{
+  const onChange=(e)=>{
    const value = e.target.value 
-   this.setState({
-    inputValue: value,
-   })
-
+  setInputValue(value)
   }
 
-  addUser = (e) =>{
+   const addTodo = (e) =>{
     e.preventDefault();
-    const todos = {
-      id: this.state.todo.length +1,
-      name:this.state.inputValue
+    const todo = {
+      id: toDos.length +1,
+      name:inputValue
     }
-    this.setState({
-      todo:[...this.state.todo, todos],
-      inputValue: ""
-    })
-
+    setToDos((prev) =>[...prev,todo ])
+   setInputValue('')
   }
-  removeTodo = (id) => {
-    const todo = this.state.todo.filter((t) => t.id !== id)
-    this.setState({
-      todo,
-          }
-    )
-  }
-  toggle = ()=>{
-    this.setState((prevState)=>{
-      return{
-        show:!prevState.show,
-      }
-    })
-  }
-  render(){
-    console.log('render log');
-  return ( <div className="App">
-    <form onSubmit={this.addUser}>
+   const removeTodo = useCallback ((id) => {
+     setToDos ((prev ) => prev.filter((t) => t.id !== id)
+   )},[])
+  return ( 
+  <div className="App">
+    <form onSubmit={addTodo}>
           <input
             type="text" 
-            onChange={this.onChange}
-            value={this.state.inputValue}
+            onChange={onChange}
+            value={inputValue}
           />
           <button className="add-btn" type="submit">Add</button>
         </form>
-        <button onClick={this.toggle}> 
-          toggle
-        </button>
-        {this.state.todo.map((t) =>(
-          <ToDoItem 
-          key={t.id}
-          id={t.id}
-          name={t.name}
-          action={this.removeTodo}
-          done = {this.doneTodo}
-          />
+        {toDos.map((t) =>(
+          <ToDoItem key={t.id} id={t.id} name={t.name} action={removeTodo}/>
         ))}
       </div>
   )
   
-
   }
-}
+
 
 export default ToDoList
