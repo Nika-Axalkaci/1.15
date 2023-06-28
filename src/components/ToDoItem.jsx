@@ -1,13 +1,10 @@
-import React, {  PureComponent } from 'react'
+import React from 'react'
 import '../components/ToDoList.css'
 
-class ToDoItem extends PureComponent {
+const ToDoItem  = ({id , name, action})=>{
+  console.log(id);   
 
-  
-  render(){
-    
-    const {id , name, action} = this.props
-   return(    
+   return( 
    <div key={id} className="input-p">
     <p>{id}</p>
     <p>name: {name}</p>
@@ -16,5 +13,5 @@ class ToDoItem extends PureComponent {
   </div>) 
 
   }
-}
-export default ToDoItem
+
+export default React.memo(ToDoItem)
